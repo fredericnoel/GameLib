@@ -41,21 +41,25 @@ if (isset($_POST['frm'])) {
         try{
             $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
             echo "Connexion OK";
+
+            $conn->beginTransaction();
+
+            $sql1 = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
+            VALUES (NULL, 'DURAND', 'Michel', 'michel@durand.com', '1234')";
+            $conn->exec($sql1);
+            $sql2 = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
+            VALUES (NULL, 'DUPONT', 'René', 'renedu 27@gmail.com', 'bibiche')";
+            $conn->exec($sql2);
+
+            $conn->commit();
+            echo "<p>Insertions effectuées</p>";
         }
         catch(PDOException $e){
+            $conn->rollBack();
             die("Erreur :  " . $e->getMessage());
         }
 
-        $conn->beginTransaction();
-
-        $sql1 = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
-        VALUES (NULL, 'DURAND', 'Michel', 'michel@durand.com', '1234')";
-        $conn->exec($sql1);
-        $sql2 = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
-        VALUES (NULL, 'DUPONT', 'René', 'renedu 27@gmail.com', 'bibiche')";
-        $conn->exec($sql2);
-
-        $conn->commit();
+        
 
         
 
