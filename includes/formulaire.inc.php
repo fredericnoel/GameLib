@@ -40,17 +40,12 @@ if (isset($_POST['frm'])) {
 
         try{
             $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
-            echo "Connexion OK";
-
+ 
             $conn->beginTransaction();
-
-            $sql1 = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
-            VALUES (NULL, 'DURAND', 'Michel', 'michel@durand.com', '1234')";
-            $conn->exec($sql1);
-            $sql2 = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
-            VALUES (NULL, 'DUPONT', 'René', 'renedu 27@gmail.com', 'bibiche')";
-            $conn->exec($sql2);
-
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
+            VALUES (NULL, '$nom', '$prenom', '$email', '$password')";
+            $conn->exec($sql);
             $conn->commit();
             echo "<p>Insertions effectuées</p>";
         }
@@ -59,16 +54,7 @@ if (isset($_POST['frm'])) {
             die("Erreur :  " . $e->getMessage());
         }
 
-        
-
-        
-
-
         $conn = null;
-
-
-
-
     } else {
         $messageErreur = "<ul>";
         $i = 0;
