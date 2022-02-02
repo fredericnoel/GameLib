@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set('Europe/Paris');
-setlocale(LC_ALL, '');
+// setlocale(LC_ALL, ''); spécifique Windows
 
 require_once './functions/autoLoadFunction.php';
 require_once './includes/head.php';
