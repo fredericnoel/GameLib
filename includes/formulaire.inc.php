@@ -43,14 +43,16 @@ if (isset($_POST['frm'])) {
             echo "Connexion OK";
         }
         catch(PDOException $e){
-            echo "Erreur :  " . $e->getMessage();
+            die("Erreur :  " . $e->getMessage());
         }
 
+        $sql = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
+        VALUES (NULL, 'DURAND', 'Michel', 'michel@durand.com', '1234')";
+
+        $conn->exec($sql);
 
 
-
-
-
+        $conn = null;
 
 
 
