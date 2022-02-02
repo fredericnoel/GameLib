@@ -33,7 +33,28 @@ if (isset($_POST['frm'])) {
         array_push($erreur, "Vos mots de passe ne correspondent pas");
 
     if (count($erreur) === 0) {
-        echo "Traitement du formulaire";
+        $serverName = "localhost";
+        $userName = "root";
+        $database = "formulaire";
+        $userPassword = "";
+
+        try{
+            $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
+            echo "Connexion OK";
+        }
+        catch(PDOException $e){
+            echo "Erreur :  " . $e->getMessage();
+        }
+
+
+
+
+
+
+
+
+
+
     } else {
         $messageErreur = "<ul>";
         $i = 0;
@@ -48,7 +69,10 @@ if (isset($_POST['frm'])) {
 
         echo $messageErreur;
 
-        echo password_hash($password,  PASSWORD_BCRYPT);
+        echo password_hash($password,  PASSWORD_DEFAULT);
+
+
+
     }
 } else {
     echo "Merci de renseigner le formulaire";
