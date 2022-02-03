@@ -45,14 +45,14 @@ if (isset($_POST['frm'])) {
             
             $query = $conn->prepare("
                 INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
-                VALUES (?, ?, ?, ?, ?)
+                VALUES (:id, :nom, :prenom, :mail, :mdp)
             ");
 
-            $query->bindValue(1, null);
-            $query->bindValue(2, $prenom, PDO::PARAM_STR);
-            $query->bindValue(3, $nom);
-            $query->bindValue(4, $email);
-            $query->bindValue(5, $password);
+            $query->bindParam(':id', null);
+            $query->bindParam(':nom', $nom);
+            $query->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+            $query->bindParam(':email', $email);
+            $query->bindParam(':password', $password);
             $query->execute();
 
             echo "<p>Insertions effectuées</p>";
