@@ -20,10 +20,32 @@ if (isset($_POST['envoi'])) {
         try{
             $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            //$estcequilestdanslabase = $conn->query("SELECT * FROM utilisateurs WHERE mail='$mail'");
+            //$nombreLignes = $estcequilestdanslabase->fetchColumn();
+
+            $requete = $conn->prepare("SELECT * FROM utilisateurs WHERE mail='$mail'");
+            $requete->execute();
+            $resultat = $requete->fetchAll(PDO::FETCH_OBJ);
+           
+            if(count($resultat) === 0) {
+                echo "Pas de résultat avec votre login/mot de passe";
+            }
+
+            else {
+                $mdpRequete = $resultat[0]->mdp;
+                if(password_verify($mdp, $mdpRequete)) {
+                    echo "OK";
+                }
+                else {
+                    echo "Bien tenté, mais non";
+                }
+            }
+                
         }
         catch(PDOException $e){
             die("Erreur :  " . $e->getMessage());
-        }
+        }   
 
         $conn = null;
     } else {
