@@ -40,13 +40,22 @@ if (isset($_POST['frm'])) {
 
         try{
             $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
- 
-            $conn->beginTransaction();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $password = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
-            VALUES (NULL, '$nom', '$prenom', '$email', '$password')";
-            $conn->exec($sql);
-            $conn->commit();
+            
+            $query = $conn->prepare("
+                INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
+                VALUES (:id, :nom, :prenom, :email, :password)
+            ");
+
+            $query->execute(array(
+                ':id' => null,
+                ':nom' => $nom,
+                ':prenom' => $prenom,
+                ':email' => $email,
+                ':password' => $password
+            ));
+
             echo "<p>Insertions effectuées</p>";
         }
         catch(PDOException $e){
@@ -68,16 +77,10 @@ if (isset($_POST['frm'])) {
         $messageErreur .= "</ul>";
 
         echo $messageErreur;
-
-        echo password_hash($password,  PASSWORD_DEFAULT);
-
-
-
     }
 } else {
     echo "Merci de renseigner le formulaire";
     $nom = $prenom = $email = '';
 }
-
 
 include 'frmFormulaire.php';
