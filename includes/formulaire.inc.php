@@ -48,12 +48,23 @@ if (isset($_POST['frm'])) {
                 VALUES (:id, :nom, :prenom, :mail, :mdp)
             ");
 
-            $query->bindParam(':id', null);
+            $id = null;
+            $query->bindParam(':id', $id);
             $query->bindParam(':nom', $nom);
-            $query->bindParam(':prenom', $prenom, PDO::PARAM_STR);
-            $query->bindParam(':email', $email);
-            $query->bindParam(':password', $password);
+            $query->bindParam(':prenom', $prenom);
+            $query->bindParam(':mail', $email);
+            $query->bindParam(':mdp', $password);
             $query->execute();
+
+            $update = $conn->prepare("
+                UPDATE utilisateurs
+                SET mail='toto@toto.com', nom='DUMACHIN'
+                WHERE id_utilisateur=1
+            ");
+
+            echo $update->rowCount(); // Affiche le nombre de lignes affectées par la requête
+
+            $update->execute();
 
             echo "<p>Insertions effectuées</p>";
         }
