@@ -45,16 +45,10 @@ if (isset($_POST['frm'])) {
             
             $query = $conn->prepare("
                 INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
-                VALUES (:id, :nom, :prenom, :email, :password)
+                VALUES (?, ?, ?, ?, ?)
             ");
 
-            $query->execute(array(
-                ':id' => null,
-                ':nom' => $nom,
-                ':prenom' => $prenom,
-                ':email' => $email,
-                ':password' => $password
-            ));
+            $query->execute(array(null, $nom, $prenom, $email,$password));
 
             echo "<p>Insertions effectuées</p>";
         }
