@@ -40,6 +40,7 @@ try{
         }
 
         $html .= "</tr>";
+
     }
 
     $html .= "</table>";
