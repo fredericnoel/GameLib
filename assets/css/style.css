@@ -1,5 +1,6 @@
 @import url('./reset.css');
-@import url('./tableau.css');
+@import url('./array.css');
+@import url('./form.css');
 
 body {
     font-size: 14px;
