@@ -1,4 +1,4 @@
-<h1>Home</h1>
+<h1>Bienvenue sur GameLib</h1>
 <?php
 if(isset($_SESSION['login']) && $_SESSION['login'] === true) {
     $bienvenue = "<p>";
