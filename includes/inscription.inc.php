@@ -1,3 +1,4 @@
+<h1>Inscription</h1>
 <?php
 if (isset($_POST['inscription'])) {
     $name = htmlentities(trim($_POST['name'])) ?? '';
@@ -39,17 +40,25 @@ if (isset($_POST['inscription'])) {
 
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
         dump($_FILES['avatar']);
+        $fileName = $_FILES['avatar']['name'];
+        $fileType = $_FILES['avatar']['type'];
+        $fileTmpName = $_FILES['avatar']['tmp_name'];
+        
+        $tableauTypes = array("image/jpeg", "image/jpg", "image/png", "image/gif");
 
+        if (in_array($fileType, $tableauTypes)) {
+            $path = getcwd() . "/avatars/";
+            $date = date('Ymdhis');
+            $fileName = $date . $fileName;
+            if (move_uploaded_file($fileTmpName, $path . $fileName))
+                echo "Fichier déplacé"; 
+        }
+        else {
+            array_push($erreur, "Erreur type MIME");
+        }
     } else {
         array_push($erreur, "Erreur upload " . $_FILES['avatar']['error']);
     }
-
-
-
-
-
-
-
 
     if (count($erreur) === 0) {
         $serverName = "localhost";
@@ -104,7 +113,7 @@ if (isset($_POST['inscription'])) {
         echo $messageErreur;
     }
 } else {
-    echo "Merci de renseigner le formulaire";
+    echo "<h2>Merci de renseigner le formulaire&nbsp;:</h2>";
     $name = $firstname = $email = $pseudo = $bio = '';
 }
 
