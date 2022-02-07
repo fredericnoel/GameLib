@@ -1,5 +1,5 @@
 <header>
-    <nav>
+    <nav role="navigation">
         <ul>
             <li><a href="index.php?page=home">Home</a></li>
             <li><a href="index.php?page=news">News</a></li>
