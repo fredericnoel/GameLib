@@ -1,7 +1,8 @@
 <?php
-require_once './includes/nav.php';
+    require_once './includes/nav.php';
 ?>
-<h1>GameLib</h1>
+<main>
 <?php
-
-inclusionInc('home');
+    inclusionInc('home');
+?>
+</main>
