@@ -1,3 +1,4 @@
+<h1>Login</h1>
 <?php
 if (isset($_POST['envoi'])) {
     $mail = htmlentities(trim($_POST['mail'])) ?? '';
@@ -69,7 +70,7 @@ if (isset($_POST['envoi'])) {
         echo $messageErreur;
     }
 } else {
-    echo "Merci de renseigner le formulaire";
+    echo "<h2>Merci de renseigner le formulaire&nbsp;:</h2>";
     $mail = $mdp = '';
 }
 
