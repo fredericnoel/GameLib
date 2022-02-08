@@ -47,8 +47,6 @@ if (isset($_POST['inscription'])) {
             $path = getcwd() . "/avatars/";
             $date = date('Ymdhis');
             $fileName = $date . $fileName;
-            if (move_uploaded_file($fileTmpName, $path . $fileName))
-                echo "Fichier déplacé"; 
             $fileName = $path . $fileName;
             $fileName = str_replace("\\", "/", $fileName);
         }
@@ -57,7 +55,6 @@ if (isset($_POST['inscription'])) {
         }
     } else {
         $fileUploadError = $_FILES['avatar']['error'];
-        $fileUploadErrorMessage = '';
         switch($fileUploadError) {
             case 1 :
                 $fileUploadErrorMessage = "La taille du fichier téléchargé excède la valeur de upload_max_filesize.";
@@ -95,21 +92,33 @@ if (isset($_POST['inscription'])) {
             $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $password = password_hash($password, PASSWORD_DEFAULT);
+            
+            $requete = $conn->prepare("SELECT * FROM users WHERE email='$email'");
+            $requete->execute();
+            $resultat = $requete->fetchAll(PDO::FETCH_OBJ);
+           
+            if(count($resultat) !== 0) {
+                echo "<p>Votre adresse est déjà enregistrée dans la base de données</p>";
+            }
 
-            $query = $conn->prepare("
+            else {
+                $query = $conn->prepare("
                 INSERT INTO users(name, firstname, email, password, bio, avatar)
                 VALUES (:name, :firstname, :email, :password, :bio, :avatar)
-            ");
+                ");
 
-            $query->bindParam(':name', $name, PDO::PARAM_STR_CHAR);
-            $query->bindParam(':firstname', $firstname, PDO::PARAM_STR_CHAR);
-            $query->bindParam(':email', $email, PDO::PARAM_STR_CHAR);
-            $query->bindParam(':password', $password);
-            $query->bindParam(':bio', $bio);
-            $query->bindParam(':avatar', $fileName);
-            $query->execute();
+                $query->bindParam(':name', $name, PDO::PARAM_STR_CHAR);
+                $query->bindParam(':firstname', $firstname, PDO::PARAM_STR_CHAR);
+                $query->bindParam(':email', $email, PDO::PARAM_STR_CHAR);
+                $query->bindParam(':password', $password);
+                $query->bindParam(':bio', $bio);
+                $query->bindParam(':avatar', $fileName);
+                $query->execute();
 
-            echo "<p>Insertions effectuées</p>";
+                move_uploaded_file($fileTmpName, $path . $fileName);
+                
+                echo "<p>Insertions effectuées</p>";
+            }
         } catch (PDOException $e) {
             die("Erreur :  " . $e->getMessage());
         }
