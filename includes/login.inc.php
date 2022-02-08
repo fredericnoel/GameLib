@@ -15,7 +15,7 @@ if (isset($_POST['envoi'])) {
     if (count($erreur) === 0) {
         $serverName = "localhost";
         $userName = "root";
-        $database = "formulaire";
+        $database = "gamelib";
         $userPassword = "";
 
         try{
@@ -25,7 +25,7 @@ if (isset($_POST['envoi'])) {
             //$estcequilestdanslabase = $conn->query("SELECT * FROM utilisateurs WHERE mail='$mail'");
             //$nombreLignes = $estcequilestdanslabase->fetchColumn();
 
-            $requete = $conn->prepare("SELECT * FROM utilisateurs WHERE mail='$mail'");
+            $requete = $conn->prepare("SELECT * FROM users WHERE email='$mail'");
             $requete->execute();
             $resultat = $requete->fetchAll(PDO::FETCH_OBJ);
            
@@ -34,15 +34,20 @@ if (isset($_POST['envoi'])) {
             }
 
             else {
-                $mdpRequete = $resultat[0]->mdp;
+                $mdpRequete = $resultat[0]->password;
                 if(password_verify($mdp, $mdpRequete)) {
-                    if(!isset($_SESSION['login']))
+                    if(!isset($_SESSION['login'])) {
                         $_SESSION['login'] = true;
-                        $_SESSION['nom'] = $resultat[0]->nom;
-                        $_SESSION['prenom'] = $resultat[0]->prenom;
+                        $_SESSION['nom'] = $resultat[0]->name;
+                        $_SESSION['prenom'] = $resultat[0]->firstname;
+                        $_SESSION['role'] = $resultat[0]->id_role;
                         echo "<script>
                         document.location.replace('http://localhost/GameLib/');
                         </script>";
+                    }
+                    else {
+                        echo "<p>Vous êtes déjà connecté, donc vous navez rien à faire ici";
+                    }
                 }
                 else {
                     echo "Bien tenté, mais non";
