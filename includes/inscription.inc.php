@@ -3,7 +3,7 @@
 if (isset($_POST['inscription'])) {
     $name = htmlentities(trim($_POST['name'])) ?? '';
     $firstname = htmlentities(trim($_POST['firstname'])) ?? '';
-    $email = htmlentities(trim($_POST['email'])) ?? '';
+    $email = trim($_POST['email']) ?? '';
     $password = htmlentities(trim($_POST['password'])) ?? '';
     $passwordverif = htmlentities(trim($_POST['passwordverif'])) ?? '';
     $pseudo = htmlentities(trim($_POST['pseudo'])) ?? '';
