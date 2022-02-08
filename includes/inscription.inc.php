@@ -2,7 +2,7 @@
 <?php
 if (isset($_POST['inscription'])) {
     $name = mb_strtoupper(trim($_POST['name'])) ?? '';
-    $firstname = htmlentities(ucfirst(mb_strtolower(trim($_POST['firstname'])))) ?? '';
+    $firstname = ucfirst(mb_strtolower(trim($_POST['firstname']))) ?? '';
     $email = trim(mb_strtolower($_POST['email'])) ?? '';
     $password = htmlentities(trim($_POST['password'])) ?? '';
     $passwordverif = htmlentities(trim($_POST['passwordverif'])) ?? '';
@@ -37,7 +37,6 @@ if (isset($_POST['inscription'])) {
         array_push($erreur, "Veuillez saisir un pseudo");
 
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
-        dump($_FILES['avatar']);
         $fileName = $_FILES['avatar']['name'];
         $fileType = $_FILES['avatar']['type'];
         $fileTmpName = $_FILES['avatar']['tmp_name'];
@@ -50,6 +49,8 @@ if (isset($_POST['inscription'])) {
             $fileName = $date . $fileName;
             if (move_uploaded_file($fileTmpName, $path . $fileName))
                 echo "Fichier déplacé"; 
+            $fileName = $path . $fileName;
+            $fileName = str_replace("\\", "/", $fileName, );
         }
         else {
             array_push($erreur, "Erreur type MIME");
@@ -87,7 +88,7 @@ if (isset($_POST['inscription'])) {
     if (count($erreur) === 0) {
         $serverName = "localhost";
         $userName = "root";
-        $database = "formulaire";
+        $database = "gamelib";
         $userPassword = "";
 
         try {
@@ -95,28 +96,18 @@ if (isset($_POST['inscription'])) {
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $password = password_hash($password, PASSWORD_DEFAULT);
 
-            /*$query = $conn->prepare("
-                INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
-                VALUES (:id, :nom, :prenom, :mail, :mdp)
+            $query = $conn->prepare("
+                INSERT INTO users(name, firstname, email, password, bio, avatar)
+                VALUES (:name, :firstname, :email, :password, :bio, :avatar)
             ");
 
-            $id = null;
-            $query->bindParam(':id', $id);
-            $query->bindParam(':nom', $nom);
-            $query->bindParam(':prenom', $prenom);
-            $query->bindParam(':mail', $email);
-            $query->bindParam(':mdp', $password);
+            $query->bindParam(':name', $name);
+            $query->bindParam(':firstname', $firstname);
+            $query->bindParam(':email', $email);
+            $query->bindParam(':password', $password);
+            $query->bindParam(':bio', $bio);
+            $query->bindParam(':avatar', $fileName);
             $query->execute();
-
-            $update = $conn->prepare("
-                UPDATE utilisateurs
-                SET mail='toto@toto.com', nom='DUMACHIN'
-                WHERE id_utilisateur=1
-            ");
-
-            echo $update->rowCount(); // Affiche le nombre de lignes affectées par la requête
-
-            $update->execute();*/
 
             echo "<p>Insertions effectuées</p>";
         } catch (PDOException $e) {
@@ -139,6 +130,5 @@ if (isset($_POST['inscription'])) {
 } else {
     echo "<h2>Merci de renseigner le formulaire&nbsp;:</h2>";
     $name = $firstname = $email = $pseudo = $bio = '';
+    include 'frmInscription.php';
 }
-
-include 'frmInscription.php';
