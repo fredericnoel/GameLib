@@ -47,8 +47,8 @@ if (isset($_POST['inscription'])) {
             $path = getcwd() . "/avatars/";
             $date = date('Ymdhis');
             $fileName = $date . $fileName;
-            $fileName = $path . $fileName;
-            $fileName = str_replace("\\", "/", $fileName);
+            $fileNameFinal = $path . $fileName;
+            $fileNameFinal = str_replace("\\", "/", $fileNameFinal);
         }
         else {
             array_push($erreur, "Erreur type MIME");
@@ -112,7 +112,7 @@ if (isset($_POST['inscription'])) {
                 $query->bindParam(':email', $email, PDO::PARAM_STR_CHAR);
                 $query->bindParam(':password', $password);
                 $query->bindParam(':bio', $bio);
-                $query->bindParam(':avatar', $fileName);
+                $query->bindParam(':avatar', $fileNameFinal);
                 $query->execute();
 
                 move_uploaded_file($fileTmpName, $path . $fileName);
