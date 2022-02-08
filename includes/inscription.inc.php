@@ -1,8 +1,8 @@
 <h1>Inscription</h1>
 <?php
 if (isset($_POST['inscription'])) {
-    $name = mb_strtoupper(trim($_POST['name'])) ?? '';
-    $firstname = ucfirst(mb_strtolower(trim($_POST['firstname']))) ?? '';
+    $name = htmlentities(mb_strtoupper(trim($_POST['name']))) ?? '';
+    $firstname = htmlentities(ucfirst(mb_strtolower(trim($_POST['firstname'])))) ?? '';
     $email = trim(mb_strtolower($_POST['email'])) ?? '';
     $password = htmlentities(trim($_POST['password'])) ?? '';
     $passwordverif = htmlentities(trim($_POST['passwordverif'])) ?? '';
@@ -11,15 +11,15 @@ if (isset($_POST['inscription'])) {
 
     $erreur = array();
 
-    if (preg_match('/(*UTF8)^[[:alpha:]]+$/', $name) !== 1)
+    if (preg_match('/(*UTF8)^[[:alpha:]]+$/', html_entity_decode($name)) !== 1)
         array_push($erreur, "Veuillez saisir votre nom");
     else
-        $name = htmlentities($name);
+        $name = html_entity_decode($name);
 
-    if (preg_match('/(*UTF8)^[[:alpha:]]+$/', $firstname) !== 1)
+    if (preg_match('/(*UTF8)^[[:alpha:]]+$/', html_entity_decode($firstname)) !== 1)
         array_push($erreur, "Veuillez saisir votre prénom");
     else
-        $firstname = htmlentities($firstname);
+        $firstname = html_entity_decode($firstname);
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         array_push($erreur, "Veuillez saisir un e-mail valide");
@@ -50,7 +50,7 @@ if (isset($_POST['inscription'])) {
             if (move_uploaded_file($fileTmpName, $path . $fileName))
                 echo "Fichier déplacé"; 
             $fileName = $path . $fileName;
-            $fileName = str_replace("\\", "/", $fileName, );
+            $fileName = str_replace("\\", "/", $fileName);
         }
         else {
             array_push($erreur, "Erreur type MIME");
@@ -126,6 +126,7 @@ if (isset($_POST['inscription'])) {
         $messageErreur .= "</ul>";
 
         echo $messageErreur;
+        include 'frmInscription.php';
     }
 } else {
     echo "<h2>Merci de renseigner le formulaire&nbsp;:</h2>";
