@@ -14,6 +14,11 @@
                 }
             ?>
             <li><a href="index.php?page=contact">Contact</a></li>
+            <?php
+                if((isset($_SESSION['login']) && $_SESSION['login'] === true) && $_SESSION['role'] >= 2 ) {
+                    echo "<li><a href=\"index.php?page=admin\">Administration</a></li>";
+                }
+            ?>
         </ul>
     </nav>
 </header>
