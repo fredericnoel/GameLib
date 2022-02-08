@@ -1,9 +1,9 @@
 <h1>Inscription</h1>
 <?php
 if (isset($_POST['inscription'])) {
-    $name = htmlentities(trim($_POST['name'])) ?? '';
-    $firstname = htmlentities(trim($_POST['firstname'])) ?? '';
-    $email = trim($_POST['email']) ?? '';
+    $name = mb_strtoupper(trim($_POST['name'])) ?? '';
+    $firstname = htmlentities(ucfirst(mb_strtolower(trim($_POST['firstname'])))) ?? '';
+    $email = trim(mb_strtolower($_POST['email'])) ?? '';
     $password = htmlentities(trim($_POST['password'])) ?? '';
     $passwordverif = htmlentities(trim($_POST['passwordverif'])) ?? '';
     $pseudo = htmlentities(trim($_POST['pseudo'])) ?? '';
@@ -11,11 +11,15 @@ if (isset($_POST['inscription'])) {
 
     $erreur = array();
 
-    if (preg_match('/(*UTF8)[[:alpha:]]+$/', $name) !== 1)
+    if (preg_match('/(*UTF8)^[[:alpha:]]+$/', $name) !== 1)
         array_push($erreur, "Veuillez saisir votre nom");
+    else
+        $name = htmlentities($name);
 
-    if (preg_match('/(*UTF8)[[:alpha:]]+$/', $firstname) !== 1)
+    if (preg_match('/(*UTF8)^[[:alpha:]]+$/', $firstname) !== 1)
         array_push($erreur, "Veuillez saisir votre prénom");
+    else
+        $firstname = htmlentities($firstname);
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         array_push($erreur, "Veuillez saisir un e-mail valide");
@@ -51,7 +55,33 @@ if (isset($_POST['inscription'])) {
             array_push($erreur, "Erreur type MIME");
         }
     } else {
-        array_push($erreur, "Erreur upload " . $_FILES['avatar']['error']);
+        $fileUploadError = $_FILES['avatar']['error'];
+        $fileUploadErrorMessage = '';
+        switch($fileUploadError) {
+            case 1 :
+                $fileUploadErrorMessage = "La taille du fichier téléchargé excède la valeur de upload_max_filesize.";
+            break;
+            case 2 :
+                $fileUploadErrorMessage = "La taille du fichier téléchargé excède la valeur de MAX_FILE_SIZE, qui a été spécifiée dans le formulaire HTML.";
+            break;
+            case 3 :
+                $fileUploadErrorMessage = "Le fichier n'a été que partiellement téléchargé.";
+            break;
+            case 4 :
+                $fileUploadErrorMessage = "Aucun fichier n'a été téléchargé.";
+            break;
+            case 6 :
+                $fileUploadErrorMessage = "Un dossier temporaire est manquant.";
+            break;
+            case 7 :
+                $fileUploadErrorMessage = "Échec de l'écriture du fichier sur le disque.";
+            break;
+            case 8 :
+                $fileUploadErrorMessage = "Une extension PHP a arrêté l'envoi de fichier.";
+            break;
+        }
+
+        array_push($erreur, "Erreur upload : " . $fileUploadErrorMessage);
     }
 
     if (count($erreur) === 0) {
