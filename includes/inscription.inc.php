@@ -101,9 +101,9 @@ if (isset($_POST['inscription'])) {
                 VALUES (:name, :firstname, :email, :password, :bio, :avatar)
             ");
 
-            $query->bindParam(':name', $name);
-            $query->bindParam(':firstname', $firstname);
-            $query->bindParam(':email', $email);
+            $query->bindParam(':name', $name, PDO::PARAM_STR_CHAR);
+            $query->bindParam(':firstname', $firstname, PDO::PARAM_STR_CHAR);
+            $query->bindParam(':email', $email, PDO::PARAM_STR_CHAR);
             $query->bindParam(':password', $password);
             $query->bindParam(':bio', $bio);
             $query->bindParam(':avatar', $fileName);
