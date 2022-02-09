@@ -13,6 +13,9 @@
                     echo "<li><a href=\"index.php?page=inscription\">Inscription</a></li>";
                 }
             ?>
+            <li><a href="index.php?page=games">Games</a></li>
+            <li><a href="index.php?page=studio">Studios</a></li>
+            <li><a href="index.php?page=editeurs">&Eacute;diteurs</a></li>
             <li><a href="index.php?page=contact">Contact</a></li>
             <?php
                 if((isset($_SESSION['login']) && $_SESSION['login'] === true) && $_SESSION['role'] >= 2 ) {
