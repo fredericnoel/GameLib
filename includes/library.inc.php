@@ -51,6 +51,8 @@ try {
     </table>";
 
     echo $games;
+
+    echo "<a href=index.php?page=games>Ajouter un jeu</a>";
 } 
 
 catch (PDOException $e) 
