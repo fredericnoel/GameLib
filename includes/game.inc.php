@@ -12,7 +12,7 @@ try {
     $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $requete = $conn->prepare("SELECT * FROM games WHERE id_game = " .  $_GET['id']);
+    $requete = $conn->prepare("SELECT * FROM games WHERE id_game = " .  intval($_GET['id']));
     $requete->execute();
     $resultat = $requete->fetchAll(PDO::FETCH_OBJ);
    
