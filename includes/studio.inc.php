@@ -19,7 +19,6 @@ if (isset($_POST['validation'])) {
     else
         $country = html_entity_decode($country);
         
-
     if (count($erreur) === 0) {
         $serverName = "localhost";
         $userName = "root";
