@@ -1,7 +1,7 @@
 <h1>Games Library</h1>
 
 <?php
-$games = "<table>
+$games = "<table class='games'>
 <thead>
     <tr>
         <th><a href='index.php?page=library&ascTitre=" . (isset($_GET['ascTitre']) ? ($_GET['ascTitre'] ? "0" : "1") : "1") . "'>Titre</a></th>
