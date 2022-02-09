@@ -1,8 +1,9 @@
 <h1>Editeurs</h1>
 <?php
 
-$_SESSION['role'] = 3;
-$_SESSION['login'] = false;
+// On recupère ici les éléments de session
+// $_SESSION['role'] = 3;
+// $_SESSION['login'] = TRUE;
 
 if(isset($_SESSION['login']) && $_SESSION['login'] === true && $_SESSION['role'] > 2) {
     if (isset($_POST['editeur'])) {
