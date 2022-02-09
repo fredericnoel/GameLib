@@ -142,3 +142,4 @@ if (isset($_POST['inscription'])) {
     $name = $firstname = $email = $pseudo = $bio = '';
     include 'frmInscription.php';
 }
+    
