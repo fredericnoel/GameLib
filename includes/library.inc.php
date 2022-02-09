@@ -1,7 +1,18 @@
 <h1>Games Library</h1>
 
 <?php
-$games = "<ul class='games'>";
+$games = "<table>
+<thead>
+    <tr>
+        <th><a href='index.php?page=library&ascTitre=" . (isset($_GET['ascTitre']) ? ($_GET['ascTitre'] ? "0" : "1") : "1") . "'>Titre</a></th>
+        <th><a href='index.php?page=library&ascDate=" . (isset($_GET['ascDate']) ? ($_GET['ascDate'] ? "0" : "1") : "1") . "'>Date de sortie</a></th>
+        <th>Description</th>
+    </tr>
+</thead>
+
+<tbody>";
+
+
 
 $serverName = "localhost";
 $userName = "root";
@@ -13,23 +24,31 @@ try {
     $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $requete = $conn->prepare("SELECT * FROM games");
+    $requete = $conn->prepare("SELECT * FROM games" . 
+        (isset($_GET['ascTitre']) ? 
+            ($_GET['ascTitre'] ? " ORDER BY title ASC" : " ORDER BY title DESC") 
+        : "") . 
+        (isset($_GET['ascDate']) ? 
+        ($_GET['ascDate'] ? " ORDER BY releasedate ASC" : " ORDER BY releasedate DESC") 
+        : ""));
+    
     $requete->execute();
     $resultat = $requete->fetchAll(PDO::FETCH_OBJ);
    
     for ($cnt=0; $cnt < count($resultat); $cnt++) 
     { 
-        $games .= "<li><a href='index.php?page=game&id=" . $resultat[$cnt]->id_game . "'>";
-        $games .= "<h2>" . $resultat[$cnt]->title . "</h2>";
+        $games .= "<tr>";
+        $games .= "<td>" . $resultat[$cnt]->title . "</td>";
 
         $date = DateTime::createFromFormat('Y-m-j', $resultat[$cnt]->releasedate);
-        $games .= "<h3>" . $date->format('d M Y') . "</h3>";
+        $games .= "<td>" . $date->format('d M Y') . "</td>";
         
-        $games .= "<p>" . $resultat[$cnt]->description . "</p>";
-        $games .= "</a></li>";
+        $games .= "<td>" . $resultat[$cnt]->description . "</td>";
+        $games .= "</tr>";
     }
 
-    $games .= "</ul>";
+    $games .= "</tbody>
+    </table>";
 
     echo $games;
 } 
