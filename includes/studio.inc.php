@@ -67,7 +67,7 @@ if (isset($_POST['validation'])) {
         $messageErreur .= "</ul>";
 
         echo $messageErreur;
-        include 'frmStudios';
+        include 'frmStudio.php';
     }
 } 
 else {

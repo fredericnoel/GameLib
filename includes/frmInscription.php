@@ -8,6 +8,6 @@
         <li><label for="passwordverif">Vérification mot de passe :</label><input type="password" id="passwordverif" name="passwordverif" /></li>
         <li><label for="bio">Bio :</label><textarea id="bio" name="bio"  value="<?php echo $bio;?>"></textarea></li>
         <li><label for="avatar">Avatar :</label><input type="file" id="avatar" name="avatar" /></li>
-        <li><input type="reset" value="Effacer" /><input type="submit" value="S'inscrire" name="inscription" />
+        <li><input type="reset" value="Effacer" /><input type="submit" value="S'inscrire" name="inscription" /></li>
     </ul>
 </form>
