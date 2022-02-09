@@ -41,6 +41,7 @@ if (isset($_POST['envoi'])) {
                         $_SESSION['nom'] = $resultat[0]->name;
                         $_SESSION['prenom'] = $resultat[0]->firstname;
                         $_SESSION['role'] = $resultat[0]->id_role;
+                        $_SESSION['pseudo'] = $resultat[0]->pseudo;
                         echo "<script>
                         document.location.replace('http://localhost/GameLib/');
                         </script>";
