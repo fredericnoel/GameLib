@@ -1,17 +1,10 @@
 <h1>Games</h1>
 <?php
 
-dump($_POST);
 
 if (isset($_POST['validation'])) {
-    $titleWords = explode(" ", mb_strtolower(trim($_POST['title']))  ?? '');
-    $title = "";
-    for ($cnt=0; $cnt < count($titleWords); $cnt++) { 
-        $titleWords[$cnt] = ucfirst($titleWords[$cnt]);
-        $title .= " " .$titleWords[$cnt];
-    }
-    
-    $title = htmlentities($title);
+
+    $title = htmlentities(trim($_POST['title'])) ?? '';
     $releaseDate = trim($_POST['releaseDate']) ?? '';
     $description = htmlentities(trim($_POST['description'])) ?? '';
 
@@ -19,8 +12,6 @@ if (isset($_POST['validation'])) {
 
     if (strlen($title) === 0)
         array_push($erreur, "Veuillez saisir un titre");
-    else
-        $title = html_entity_decode($title);
 
     if (strlen($releaseDate) === 0)
         array_push($erreur, "Veuillez saisir une date de sortie");
