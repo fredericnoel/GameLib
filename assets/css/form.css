@@ -2,6 +2,10 @@ input {
     width: 100%;
 }
 
+form {
+    margin-bottom: 30px;
+}
+
 form ul {
     background-color: whitesmoke;
     border-radius: 3px;

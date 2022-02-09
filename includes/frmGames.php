@@ -13,3 +13,5 @@
             <input type="submit" value="Valider" name="validation"></li>
     </ul>
 </form>
+<a href="index.php?page=library">Voir tous les jeux</a>
+
