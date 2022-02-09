@@ -2,8 +2,8 @@
 <?php
 
 if (isset($_POST['validation'])) {
-    $name = htmlentities(mb_strtoupper($_POST['name'])) ?? '';
-    $country = htmlentities(ucfirst(mb_strtolower(trim($_POST['country'])))) ?? '';
+    $name = htmlentities($_POST['name']) ?? '';
+    $country = htmlentities(mb_strtoupper(trim($_POST['country']))) ?? '';
     
     $erreur = array();
 
