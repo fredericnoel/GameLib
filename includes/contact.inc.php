@@ -3,7 +3,7 @@ if (isset($_POST['contact'])) {
     $name = htmlentities(trim($_POST['name'])) ?? '';
     $firstname = htmlentities(trim($_POST['firstname'])) ?? '';
     $mail = htmlentities(trim($_POST['mail'])) ?? '';
-    $message = htmlentities(trim($_POST['mail'])) ?? '';;
+    $message = htmlentities(trim($_POST['message'])) ?? '';;
 
     $erreur = array();
 
@@ -20,6 +20,12 @@ if (isset($_POST['contact'])) {
         array_push($erreur, "Veuillez saisir un message");
 
     if (count($erreur) === 0) {
+        $from = $mail;
+        $to = "contact@fredericnoel.com";
+        $subject = "Envoi depuis le formulaire de contact";
+        $header = "From:" . $from;
+        mail($to, $subject, $message, $header);
+        echo "Message envoyé";
 
     } else {
         $messageErreur = "<ul>";
