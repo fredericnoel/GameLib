@@ -9,11 +9,13 @@
         <li><label for="description"> Description : </label>
             <textarea id="description" name="description" value="<?php echo $description;?>"></textarea></li>
 
-        <li><label for="studios"> Studios : </label>
-            <select range="studio" id="studio" name="studio">
+        <li><label for="studios[]"> Studios : </label>
+            <select range="studio" id="studio" name="studios[]" multiple>
             <?php echo getStudios();?>
 		    </select>
+        </li>
 
+        <li><span name="studio1"></span><span name="studio2"></span><span name="studio3"></span>
         </li>
 
         <li><input type="reset" value="Effacer">

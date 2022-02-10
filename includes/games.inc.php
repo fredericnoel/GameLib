@@ -1,13 +1,12 @@
 <h1>Games</h1>
 <?php
 
-
 if (isset($_POST['validation'])) {
 
     $title = htmlentities(trim($_POST['title'])) ?? '';
     $releaseDate = trim($_POST['releaseDate']) ?? '';
     $description = htmlentities(trim($_POST['description'])) ?? '';
-    $studio = trim($_POST['studio']);
+    $studios = $_POST['studios'];
 
     $erreur = array();
 
@@ -49,11 +48,15 @@ if (isset($_POST['validation'])) {
                     $conn->exec($gameQuery);
                     
                     $game = $conn->lastInsertId();
-                    $gameStudioQuery = "
-                    INSERT INTO studios_has_games(id_studio, id_game)
-                    VALUES ('$studio', '$game')
-                    ";
-                    $conn->exec($gameStudioQuery);
+
+                    for ($cnt=0; $cnt < count($studios); $cnt++) 
+                    { 
+                        $gameStudioQuery = "
+                        INSERT INTO studios_has_games(id_studio, id_game)
+                        VALUES ('$studios[$cnt]', '$game')
+                        ";
+                        $conn->exec($gameStudioQuery);
+                    }
 
                     $conn->commit();
                 }
