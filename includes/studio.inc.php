@@ -3,6 +3,42 @@
 
 $serverName = "localhost";
 $userName = "root";
+$database = "countries";
+$userPassword = "";
+
+$conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$requete = $conn->prepare("SELECT * FROM countries ORDER BY name ASC");
+$requete -> execute();
+$resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+
+$name = $_GET ['name'] ?? '';
+$code = $_GET ['code'] ?? '';
+
+    $html = "<select>";
+
+    for ($i = 0; $i < count($resultat); $i++) {
+        $html .= "<option value='" . $resultat[$i]['country_id'] . "'>";
+        $html .= $name . "-" . $code;
+        $html .= "</option>";
+    }
+
+    $html .= "</select>";
+
+
+
+
+
+
+
+
+
+
+
+
+$serverName = "localhost";
+$userName = "root";
 $database = "gamelib";
 $userPassword = "";
 
