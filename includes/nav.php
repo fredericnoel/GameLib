@@ -6,7 +6,7 @@
             <?php
                 if(isset($_SESSION['login']) && $_SESSION['login'] === true) {
                     echo "<li><a href=\"index.php?page=logout\">Logout</a></li>";
-                    echo "<li><a href=\"index.php?page=myaccount\">Mon compte</a></li>";
+                    echo "<li><a href=\"index.php?page=inscription\">Mon compte</a></li>";
                 }
                 else {
                     echo "<li><a href=\"index.php?page=login\">Login</a></li>";
