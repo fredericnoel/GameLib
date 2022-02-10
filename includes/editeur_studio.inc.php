@@ -4,10 +4,10 @@ if(isset($_SESSION['login']) && $_SESSION['login'] === true && $_SESSION['role']
         $editor = htmlentities($_POST['editor']) ?? '';
         $studio = htmlentities($_POST['studio']) ?? '';
     
-        $serverName = "localhost";
-        $userName = "root";
-        $database = "gamelib";
-        $userPassword = "";
+        // $serverName = "localhost";
+        // $userName = "root";
+        // $database = "gamelib";
+        // $userPassword = "";
     
         try {
             $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
