@@ -6,7 +6,7 @@ if (isset($_POST['validation'])) {
     $title = htmlentities(trim($_POST['title'])) ?? '';
     $releaseDate = trim($_POST['releaseDate']) ?? '';
     $description = htmlentities(trim($_POST['description'])) ?? '';
-    $studios = $_POST['studios'];
+    $studios = $_POST['studios'] ?? [];
 
     $erreur = array();
 
@@ -18,6 +18,9 @@ if (isset($_POST['validation'])) {
 
     if (strlen($description) === 0)
         array_push($erreur, "Veuillez saisir une description");
+    
+    if (count($studios) === 0)
+        array_push($erreur, "Veuillez saisir un ou plusieurs studios");
 
     if (count($erreur) === 0) {
         $serverName = "localhost";
