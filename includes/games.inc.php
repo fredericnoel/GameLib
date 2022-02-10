@@ -80,6 +80,10 @@ if (isset($_POST['validation'])) {
         }
 
         $conn = null;
+        
+        $title = $releaseDate = $description = '';
+        include 'frmGames.php';
+
     } else {
         $messageErreur = "<ul>";
         $i = 0;
