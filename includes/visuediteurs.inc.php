@@ -52,11 +52,3 @@ catch(PDOException $e){
 }
 
 $conn= null;
-
-
-
-
-
-
-include "formEditStud.php";
-
