@@ -1,5 +1,6 @@
 <h1>Inscription</h1>
 <?php
+$whatwedo = (isset($_GET['page']) && $_GET['page'] === 'inscription' && (isset($_SESSION['login']) && $_SESSION['login'] === true)) ? 'modification' : 'inscription';
 if (isset($_POST['inscription'])) {
     $name = htmlentities(mb_strtoupper(trim($_POST['name']))) ?? '';
     $firstname = htmlentities(ucfirst(mb_strtolower(trim($_POST['firstname'])))) ?? '';
