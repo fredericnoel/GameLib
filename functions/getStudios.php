@@ -6,8 +6,6 @@ function getStudios() : string
 
     $text = "";
 
-    dump($resultats);
-
     for ($cnt=0; $cnt < count($resultats); $cnt++) 
     { 
         $text .= "<option value='" . $resultats[$cnt]->id_studio . "'>";
