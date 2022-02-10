@@ -8,6 +8,7 @@ spl_autoload_register(function ($className) {
     include './classes/' . $className . '.php';
 });
 
+require_once './includes/config.php';
 require_once './includes/head.php';
 require_once './includes/main.php';
 require_once './includes/footer.php';
