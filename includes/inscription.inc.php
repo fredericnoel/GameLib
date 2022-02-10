@@ -102,14 +102,16 @@ if (isset($_POST['inscription'])) {
             }
 
             else {
+                $pseudo = html_entity_decode($pseudo);
                 $query = $conn->prepare("
-                INSERT INTO users(name, firstname, email, password, bio, avatar)
-                VALUES (:name, :firstname, :email, :password, :bio, :avatar)
+                INSERT INTO users(name, firstname, email, pseudo, password, bio, avatar)
+                VALUES (:name, :firstname, :email, :pseudo, :password, :bio, :avatar)
                 ");
 
                 $query->bindParam(':name', $name, PDO::PARAM_STR_CHAR);
                 $query->bindParam(':firstname', $firstname, PDO::PARAM_STR_CHAR);
                 $query->bindParam(':email', $email, PDO::PARAM_STR_CHAR);
+                $query->bindParam(':pseudo', $pseudo, PDO::PARAM_STR_CHAR);
                 $query->bindParam(':password', $password);
                 $query->bindParam(':bio', $bio);
                 $query->bindParam(':avatar', $fileNameFinal);
