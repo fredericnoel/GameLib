@@ -10,7 +10,7 @@
             <textarea id="description" name="description" value="<?php echo $description;?>"></textarea></li>
 
         <li><label for="studios"> Studios : </label>
-            <select range="studio" id="studio">
+            <select range="studio" id="studio" name="studio">
             <?php echo getStudios();?>
 		    </select>
 
