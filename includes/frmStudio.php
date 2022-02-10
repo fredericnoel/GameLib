@@ -6,7 +6,9 @@
     </li>
         <li>
             <label for="country">Pays:</label>
-            <input type="text" id="country" name="country"  value="<?php echo $country;?>" />
+            <select name="location" id="location">
+                <option value="">France - FR</option>
+            </select>
         </li>
         <li>
             <input type="reset" value="Effacer" />
