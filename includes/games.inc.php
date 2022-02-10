@@ -7,6 +7,7 @@ if (isset($_POST['validation'])) {
     $title = htmlentities(trim($_POST['title'])) ?? '';
     $releaseDate = trim($_POST['releaseDate']) ?? '';
     $description = htmlentities(trim($_POST['description'])) ?? '';
+    $studio = trim($_POST['studio']);
 
     $erreur = array();
 
@@ -32,21 +33,39 @@ if (isset($_POST['validation'])) {
             $requete = $conn->prepare("SELECT * FROM games WHERE title='$title'");
             $requete->execute();
             $resultat = $requete->fetchAll(PDO::FETCH_OBJ);
-           
+            
             if(count($resultat) !== 0) {
                 echo "<p>Le titre du jeu est déjà enregistrée dans la base de données</p>";
             }
 
             else {
-                $query = $conn->prepare("
-                INSERT INTO games(title, releasedate, description)
-                VALUES (:title, :releaseDate, :description)
-                ");
+                try{
+                    $gameQuery = "
+                    INSERT INTO games(title, releasedate, description)
+                    VALUES ('$title', '$releaseDate', '$description')
+                    ";
 
-                $query->bindParam(':title', $title, PDO::PARAM_STR_CHAR);
-                $query->bindParam(':releaseDate', $releaseDate);
-                $query->bindParam(':description', $description, PDO::PARAM_STR_CHAR);
-                $query->execute();
+                    $conn->beginTransaction();
+                    $conn->exec($gameQuery);
+                    
+                    $game = $conn->lastInsertId();
+                    $gameStudioQuery = "
+                    INSERT INTO studios_has_games(id_studio, id_game)
+                    VALUES ('$studio', '$game')
+                    ";
+                    $conn->exec($gameStudioQuery);
+
+                    $conn->commit();
+                }
+                catch(PDOException $e){
+                    $conn->rollBack();
+                    die("Erreur :  " . $e->getMessage());
+                }
+
+                $gameQuery = "
+                INSERT INTO games(title, releasedate, description)
+                VALUES ('$title', '$releaseDate', '$description')
+                ";
                 
                 echo "<p>Insertions effectuées</p>";
             }
