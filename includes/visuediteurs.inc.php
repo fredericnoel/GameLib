@@ -50,4 +50,13 @@ try{
 catch(PDOException $e){
     die("Erreur :  " . $e->getMessage());
 }
-?>
+
+$conn= null;
+
+
+
+
+
+
+include "formEditStud.php";
+
