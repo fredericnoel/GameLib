@@ -83,11 +83,6 @@ if (isset($_POST['inscription'])) {
     }
 
     if (count($erreur) === 0) {
-        $serverName = "localhost";
-        $userName = "root";
-        $database = "gamelib";
-        $userPassword = "";
-
         try {
             $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
