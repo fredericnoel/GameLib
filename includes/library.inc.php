@@ -33,6 +33,9 @@ try {
         : ""));
     
     $requete->execute();
+
+    $conn = null;
+
     $resultat = $requete->fetchAll(PDO::FETCH_OBJ);
    
     for ($cnt=0; $cnt < count($resultat); $cnt++) 
