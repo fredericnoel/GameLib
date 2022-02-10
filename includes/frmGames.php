@@ -7,7 +7,7 @@
                 value="<?php echo $releaseDate;?>"></li>
 
         <li><label for="description"> Description : </label>
-            <textarea id="description" name="description" value="<?php echo $description;?>"></textarea></li>
+            <textarea id="description" name="description"><?php echo $description;?></textarea></li>
 
         <li><label for="studios[]"> Studios : </label>
             <select range="studio" id="studio" name="studios[]" multiple>
