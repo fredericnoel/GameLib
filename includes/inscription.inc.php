@@ -1,5 +1,6 @@
 <h1>Inscription</h1>
 <?php
+
 if (isset($_POST['inscription'])) {
     $name = htmlentities(mb_strtoupper(trim($_POST['name']))) ?? '';
     $firstname = htmlentities(ucfirst(mb_strtolower(trim($_POST['firstname'])))) ?? '';
