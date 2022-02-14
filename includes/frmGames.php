@@ -14,10 +14,7 @@
             <?php echo getStudios();?>
 		    </select>
         </li>
-
-        <li><span name="studio1"></span><span name="studio2"></span><span name="studio3"></span>
-        </li>
-
+        
         <li><input type="reset" value="Effacer">
             <input type="submit" value="Valider" name="validation"></li>
     </ul>
