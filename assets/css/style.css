@@ -2,6 +2,10 @@
 @import url('./array.css');
 @import url('./form.css');
 @import url('./library.css');
+@import url('./platforms.css');
+@import url('./platformGames.css');
+
+
 * {
     box-sizing: border-box;
 }
