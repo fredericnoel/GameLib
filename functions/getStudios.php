@@ -1,8 +1,14 @@
 <?php
-function getStudios() : string
+function getStudios(bool $triCroissant) : string
 {
+    $tri = "";
+    if ($triCroissant){
+        $tri = "ASC";
+    }else {
+        $tri = "DESC";
+    }
     $connHandler = new Sql();
-    $resultats = $connHandler->select("SELECT * FROM studios");
+    $resultats = $connHandler->select("SELECT * FROM studios ORDER BY name " . $tri );
 
     $text = "";
 

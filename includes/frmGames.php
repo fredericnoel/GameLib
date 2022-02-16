@@ -11,13 +11,11 @@
 
         <li><label for="studios[]"> Studios : </label>
             <select range="studio" id="studio" name="studios[]" multiple>
-            <?php echo getStudios();?>
+            <?php echo getStudios($_GET['ascGames'] ?? "1");?>
 		    </select>
+            <?php echo "<a href='index.php?page=games&ascGames=" . (isset($_GET['ascGames']) ? ($_GET['ascGames'] ? "0" : "1") : "1") . "'><div class='triBtn'>Tri</div></a>";?>
         </li>
-
-        <li><span name="studio1"></span><span name="studio2"></span><span name="studio3"></span>
-        </li>
-
+        
         <li><input type="reset" value="Effacer">
             <input type="submit" value="Valider" name="validation"></li>
     </ul>
