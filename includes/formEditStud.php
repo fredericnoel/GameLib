@@ -1,8 +1,8 @@
 <?php      
-    // $serverName = "localhost";
-    // $userName = "root";
-    // $database = "gamelib";
-    // $userPassword = "";
+    $serverName = "localhost";
+    $userName = "root";
+    $database = "gamelib";
+    $userPassword = "";
 
 try{
         $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
@@ -29,7 +29,7 @@ try{
         }
         $html .= "</select>";
         $html .="<label for='studio'>Studio : </label>";
-        $html .="<select name='studio' id='studio'>";
+        $html .="<select name='studio[]' id='studio' multiple>";
         
         for($i = 0 ; $i < count($resultat2) ; $i++) {
             $indexStudio = $resultat2[$i]['id_studio'];
