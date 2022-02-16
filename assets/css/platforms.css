@@ -1,0 +1,9 @@
+ul.platforms li{
+    border: 2px solid blue;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+ul.platforms li h3{
+    margin-bottom: 10px;
+} 
