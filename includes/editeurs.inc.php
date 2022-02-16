@@ -27,7 +27,7 @@ if(isset($_SESSION['login']) && $_SESSION['login'] === true && $_SESSION['role']
             $serverName = "localhost";
             $userName = "root";
             $database = "gamelib";
-            $userPassword = ""; // Mot de passe nécessaire sous Mac.
+            $userPassword = "root"; // Mot de passe nécessaire sous Mac.
     
             try {
                 $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
