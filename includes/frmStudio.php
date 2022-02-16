@@ -6,7 +6,7 @@
     </li>
         <li>
             <label for="country">Pays:</label>
-            <select name="location" id="location">
+            <select name="country" id="country">
                 <option value="">France - FR</option>
             </select>
         </li>
