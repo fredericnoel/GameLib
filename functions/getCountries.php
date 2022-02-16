@@ -7,25 +7,25 @@ function getCountries()
     $database = "countries";
     $userPassword = "";
     
-    $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $connCountries = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
+    $connCountries->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $requete = $conn->prepare("SELECT * FROM continents ORDER BY name ASC");
-    $requete -> execute();
-    $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+    $requeteContinents = $connCountries->prepare("SELECT * FROM continents ORDER BY name ASC");
+    $requeteContinents -> execute();
+    $resultatContinents = $requeteContinents->fetchAll(PDO::FETCH_ASSOC);
     
         $html = "<select>";
-        for ($i = 0 ; $i < count($resultat) ; $i++) {
-            $requete2 = $conn->prepare("SELECT name,code  FROM countries WHERE continent_code = 
-                '". $resultat[$i]['code']."' ORDER BY name ASC");
-            $requete2 -> execute();
-            $resultat2 = $requete2->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0 ; $i < count($resultatContinents) ; $i++) {
+            $requeteCountries = $connCountries->prepare("SELECT name,code  FROM countries WHERE continent_code = 
+                '". $resultatContinents[$i]['code']."' ORDER BY name ASC");
+            $requeteCountries -> execute();
+            $resultatCountries = $requeteCountries->fetchAll(PDO::FETCH_ASSOC);
             
-            $html .= "<optgroup label='" . $resultat[$i]['name'] . "'>";
+            $html .= "<optgroup label='" . $resultatContinents[$i]['name'] . "'>";
     
-            for ($j = 0 ; $j < count($resultat2) ; $j++) {
-                $html .= "<option value='" . $resultat2[$j]['code'] . "'>";
-                $html .= $resultat2[$j]['name'] . " - " . $resultat2[$j]['code'];
+            for ($j = 0 ; $j < count($resultatCountries) ; $j++) {
+                $html .= "<option value='" . $resultatCountries[$j]['code'] . "'>";
+                $html .= $resultatCountries[$j]['name'] . " - " . $resultatCountries[$j]['code'];
             
                 $html .= "</option>";
             }
