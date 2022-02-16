@@ -15,10 +15,7 @@
 		    </select>
             <?php echo "<a href='index.php?page=games&ascGames=" . (isset($_GET['ascGames']) ? ($_GET['ascGames'] ? "0" : "1") : "1") . "'><div class='triBtn'>Tri</div></a>";?>
         </li>
-
-        <li><span name="studio1"></span><span name="studio2"></span><span name="studio3"></span>
-        </li>
-
+        
         <li><input type="reset" value="Effacer">
             <input type="submit" value="Valider" name="validation"></li>
     </ul>
