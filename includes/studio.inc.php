@@ -1,35 +1,10 @@
 <h1>Studios</h1>
 <?php
-
-$serverName = "localhost";
-$userName = "root";
-$database = "countries";
-$userPassword = "";
-
-$conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-$requete = $conn->prepare("SELECT name,code FROM countries ORDER BY name ASC");
-$requete -> execute();
-$resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
-
-    $html = "<select>";
-    for ($i = 0 ; $i < count($resultat) ; $i++) {
-        $html .= "<option value='" . $resultat[$i]['code'] . "'>";
-        $html .= $resultat[$i]['name'] . " - " . $resultat[$i]['code'];
-        $html .= "</option>";
-    }
-
-    $html .= "</select>";
-    echo $html;
-    
-    // die();
-    //affichage des données dans un tableau, récupération de la bdd gamelib
 $serverName = "localhost";
 $userName = "root";
 $database = "gamelib";
 $userPassword = "";
-
+    
 $conn2 = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
 $conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -84,10 +59,6 @@ if (isset($_SESSION['login']) && ($_SESSION['role'] >=3 )){
 
             //vérification de la présence d'un studio dans la bdd
         if (count($erreur) === 0) {
-            $serverName = "localhost";
-            $userName = "root";
-            $database = "gamelib";
-            $userPassword = "";
 
             try {
                 $conn2 = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
