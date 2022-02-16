@@ -1,47 +1,22 @@
 <h1>Studios</h1>
 <?php
+
+echo showTabStudio();
+
 $serverName = "localhost";
 $userName = "root";
 $database = "gamelib";
 $userPassword = "";
     
-$conn2 = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
-$conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-$requete = $conn2->prepare("SELECT * FROM studios ORDER BY name ASC");
-$requete -> execute();
-$resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
-
-$html = "<table>";
-$html .= "<tr>";
-$html .= "<th>ID studio</th>";
-$html .= "<th>Name</th>";
-$html .= "<th>Country</th>";
-$html .= "</tr>";
-
-for ($i = 0; $i < count($resultat); $i++){
-    $html .= "<tr>";
-    $html .= "<td>" . $resultat[$i]['id_studio'] . "</td>";
-    $html .= "<td>" . $resultat[$i]['name'] . "</td>";
-    $html .= "<td>" . $resultat[$i]['country'] . "</td>";
-    $html .= "</tr>";
-}
-    $html .= "</table>";
-
-    echo ($html);
-
-    $conn2 = null;
-
-    //fin du code pour affichage du tableau
-
-    //insertion de données dans la bdd gamelib si le role de l'utilisateur le permet (studios)
+$connStudio = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
+$connStudio->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 if (isset($_SESSION['login']) && ($_SESSION['role'] >=3 )){
         echo "Vous avez les droits pour insérer des données.";
 
     if (isset($_POST['validation'])) {
         $name = htmlentities($_POST['name']) ?? '';
-        $country = htmlentities(mb_strtoupper(trim($_POST['country']))) ?? '';
+        $country = $_POST['country'] ?? '';
         
         $erreur = array();
 
@@ -51,20 +26,20 @@ if (isset($_SESSION['login']) && ($_SESSION['role'] >=3 )){
         else
             $name = html_entity_decode($name);
             
-        if (strlen($country) === 0){
-            array_push($erreur, "Veuillez saisir le pays d'origine du studio");
-        }
-        else
-            $country = html_entity_decode($country);
+        // if (strlen($country) === 0){
+        //     array_push($erreur, "Veuillez saisir le pays d'origine du studio");
+        // }
+        // else
+        //     $country = html_entity_decode($country);
 
             //vérification de la présence d'un studio dans la bdd
         if (count($erreur) === 0) {
 
             try {
-                $conn2 = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
-                $conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $connStudio = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
+                $connStudio->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     
-                $requete = $conn2->prepare("SELECT * FROM studios WHERE name = '$name'");
+                $requete = $connStudio->prepare("SELECT * FROM studios WHERE name = '$name'");
                 $requete->execute();
                 $resultat = $requete->fetchAll(PDO::FETCH_OBJ);
             //studio déja renseigné dans la bdd
@@ -72,7 +47,7 @@ if (isset($_SESSION['login']) && ($_SESSION['role'] >=3 )){
                     echo "<p>Le studio est déjà enregistré</p>";
                 }
             //studio non renseigné donc à insérer dans la bdd    
-                else{$query = $conn2->prepare("
+                else{$query = $connStudio->prepare("
                     INSERT INTO studios(name, country)
                     VALUES (:name, :country)
                     ");
@@ -89,7 +64,7 @@ if (isset($_SESSION['login']) && ($_SESSION['role'] >=3 )){
                 die("Erreur :  " . $e->getMessage());
             }
 
-            $conn2 = null;
+            $connStudio = null;
         } else {
             $messageErreur = "<ul>";
             $i = 0;

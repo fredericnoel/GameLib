@@ -14,7 +14,7 @@ function getCountries()
     $requeteContinents -> execute();
     $resultatContinents = $requeteContinents->fetchAll(PDO::FETCH_ASSOC);
     
-        $html = "<select>";
+        $html = "<select name='country[]'>";
         for ($i = 0 ; $i < count($resultatContinents) ; $i++) {
             $requeteCountries = $connCountries->prepare("SELECT name,code  FROM countries WHERE continent_code = 
                 '". $resultatContinents[$i]['code']."' ORDER BY name ASC");
