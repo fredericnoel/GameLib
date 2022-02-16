@@ -9,43 +9,31 @@ $userPassword = "";
 $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$requete = $conn->prepare("SELECT * FROM countries ORDER BY name ASC");
+$requete = $conn->prepare("SELECT name,code FROM countries ORDER BY name ASC");
 $requete -> execute();
 $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
 
-$name = $_GET ['name'] ?? '';
-$code = $_GET ['code'] ?? '';
-
     $html = "<select>";
-
-    for ($i = 0; $i < count($resultat); $i++) {
-        $html .= "<option value='" . $resultat[$i]['country_id'] . "'>";
-        $html .= $name . "-" . $code;
+    for ($i = 0 ; $i < count($resultat) ; $i++) {
+        $html .= "<option value='" . $resultat[$i]['code'] . "'>";
+        $html .= $resultat[$i]['name'] . " - " . $resultat[$i]['code'];
         $html .= "</option>";
     }
 
     $html .= "</select>";
-
-
-
-
-
-
-
-
-
-
-
-
+    echo $html;
+    
+    // die();
+    //affichage des données dans un tableau, récupération de la bdd gamelib
 $serverName = "localhost";
 $userName = "root";
 $database = "gamelib";
 $userPassword = "";
 
-$conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn2 = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
+$conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$requete = $conn->prepare("SELECT * FROM studios ORDER BY name ASC");
+$requete = $conn2->prepare("SELECT * FROM studios ORDER BY name ASC");
 $requete -> execute();
 $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
 
@@ -67,7 +55,11 @@ for ($i = 0; $i < count($resultat); $i++){
 
     echo ($html);
 
-    $conn = null;
+    $conn2 = null;
+
+    //fin du code pour affichage du tableau
+
+    //insertion de données dans la bdd gamelib si le role de l'utilisateur le permet (studios)
 
 if (isset($_SESSION['login']) && ($_SESSION['role'] >=3 )){
         echo "Vous avez les droits pour insérer des données.";
@@ -89,7 +81,8 @@ if (isset($_SESSION['login']) && ($_SESSION['role'] >=3 )){
         }
         else
             $country = html_entity_decode($country);
-            
+
+            //vérification de la présence d'un studio dans la bdd
         if (count($erreur) === 0) {
             $serverName = "localhost";
             $userName = "root";
@@ -97,18 +90,18 @@ if (isset($_SESSION['login']) && ($_SESSION['role'] >=3 )){
             $userPassword = "";
 
             try {
-                $conn = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $conn2 = new PDO("mysql:host=$serverName;dbname=$database", $userName, $userPassword);
+                $conn2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     
-                $requete = $conn->prepare("SELECT * FROM studios WHERE name = '$name'");
+                $requete = $conn2->prepare("SELECT * FROM studios WHERE name = '$name'");
                 $requete->execute();
                 $resultat = $requete->fetchAll(PDO::FETCH_OBJ);
-            
+            //studio déja renseigné dans la bdd
                 if(count($resultat) !== 0) {
                     echo "<p>Le studio est déjà enregistré</p>";
                 }
-
-                else{$query = $conn->prepare("
+            //studio non renseigné donc à insérer dans la bdd    
+                else{$query = $conn2->prepare("
                     INSERT INTO studios(name, country)
                     VALUES (:name, :country)
                     ");
@@ -125,7 +118,7 @@ if (isset($_SESSION['login']) && ($_SESSION['role'] >=3 )){
                 die("Erreur :  " . $e->getMessage());
             }
 
-            $conn = null;
+            $conn2 = null;
         } else {
             $messageErreur = "<ul>";
             $i = 0;
