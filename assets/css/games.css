@@ -1,0 +1,11 @@
+div.triBtn {
+    padding: 8px;
+    background-color: #777;
+    color: black;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+div.triBtn:hover{
+    background-color: #aaa;
+}
