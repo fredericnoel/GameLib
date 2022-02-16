@@ -5,8 +5,8 @@
         <input type="text" id="name" name="name" value="<?php echo $name;?>" />
     </li>
         <li>
-            <label for="country">Pays:</label>
-            <input type="text" id="country" name="country"  value="<?php echo $country;?>" />
+            <label for="country">Pays :</label>
+            <?php echo getCountries();?>
         </li>
         <li>
             <input type="reset" value="Effacer" />
